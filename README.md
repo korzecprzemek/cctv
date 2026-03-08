@@ -9,6 +9,7 @@ Web-based CCTV dashboard built with:
 Using ffmpeg and a sample.mp4 file for prototype tests.
 
 ## Setup:
+- ```docker compose up```
 - ```ffmpeg -re -stream_loop -1 -i sample.mp4 -c copy -f rtsp rtsp://127.0.0.1:8554/cam1 ```
 - ```npm install; npm start {backend i frontend}```
 
