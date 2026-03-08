@@ -1,0 +1,13 @@
+pathDefaults:
+  overridePublisher: yes
+
+paths:
+  cam1: {}
+  cam2: {}
+  cam3: {}
+  cam4: {}
+  cam5: {}
+  cam6: {}
+  cam7: {}
+  cam8: {}
+  cam9: {}
