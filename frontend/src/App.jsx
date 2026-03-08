@@ -5,7 +5,8 @@ function App() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3001/cameras")
+    //fetch("http://localhost:3001/cameras")
+    fetch("/api/cameras")
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch cameras");
