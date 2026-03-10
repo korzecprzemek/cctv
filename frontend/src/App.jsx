@@ -39,8 +39,8 @@ function App() {
               padding: "12px",
             }}
           >
-            <h3>{camera.name}</h3>
-            <p>{camera.id}</p>
+            <h3>Camera name: {camera.name}</h3>
+            <p>Id: {camera.id}</p>
 
             <iframe
               src={camera.streamUrl}
