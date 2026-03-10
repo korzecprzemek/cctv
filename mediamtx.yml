@@ -1,7 +1,13 @@
+logLevel: info
+
+webrtc: yes
+webrtcAddress: :8889
+webrtcLocalUDPAddress: :8189
 pathDefaults:
   overridePublisher: yes
 
 paths:
+  laptopcam: {}
   cam1: {}
   cam2: {}
   cam3: {}

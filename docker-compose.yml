@@ -4,6 +4,7 @@ services:
   mediamtx:
     image: bluenviron/mediamtx:1
     container_name: mediamtx
+    restart: unless-stopped
     environment:
       MTX_RTSPTRANSPORTS: tcp
       MTX_WEBRTCADDITIONALHOSTS: 127.0.0.1
