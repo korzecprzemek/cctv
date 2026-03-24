@@ -1,5 +1,9 @@
 console.log("START SERVER", __filename);
 
+const { spawn } = require("child_process");
+
+let ffmpegProcess = null;
+
 const express = require("express");
 const cors = require("cors");
 
@@ -91,6 +95,46 @@ app.delete("/cameras/:id", (req, res) => {
     res.json(deleted);
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-})
+app.post("/mosaic/start", (req, res) => {
+  if (ffmpegProcess) {
+    return res.json({ message: "already running" });
+  }
+
+ffmpegProcess = spawn("ffmpeg", [
+  "-rtsp_transport", "tcp","-fflags", "nobuffer", "-flags", "low_delay", "-i", "rtsp://localhost:8554/cam1",
+  "-rtsp_transport", "tcp","-fflags", "nobuffer", "-flags", "low_delay", "-i", "rtsp://localhost:8554/cam2",
+  "-rtsp_transport", "tcp","-fflags", "nobuffer", "-flags", "low_delay", "-i", "rtsp://localhost:8554/cam3",
+  "-rtsp_transport", "tcp","-fflags", "nobuffer", "-flags", "low_delay", "-i", "rtsp://localhost:8554/cam4",
+  "-filter_complex",
+  "[0:v]scale=640:360[v0];[1:v]scale=640:360[v1];[2:v]scale=640:360[v2];[3:v]scale=640:360[v3];[v0][v1][v2][v3]xstack=inputs=4:layout=0_0|640_0|0_360|640_360[v]",
+  "-map", "[v]",
+  "-c:v", "libx264",
+  "-preset", "veryfast",
+  "-tune", "zerolatency",
+  "-f", "rtsp",
+  "rtsp://localhost:8554/mosaic"
+]);
+
+  ffmpegProcess.stderr.on("data", (data) => {
+    console.log(`ffmpeg: ${data}`);
+  });
+
+  ffmpegProcess.on("close", () => {
+    console.log("ffmpeg stopped");
+    ffmpegProcess = null;
+  });
+
+  res.json({ message: "mosaic started" });
+});
+
+app.post("/mosaic/stop", (req, res) => {
+  if (ffmpegProcess) {
+    ffmpegProcess.kill("SIGINT");
+    ffmpegProcess = null;
+  }
+  res.json({ message: "mosaic stopped" });
+});
+
+app.listen(3001, () => {
+  console.log("API on 3001");
+});

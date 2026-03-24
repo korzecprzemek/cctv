@@ -8,6 +8,7 @@ pathDefaults:
 
 paths:
   laptopcam: {}
+  mosaic: {}
   cam1: {}
   cam2: {}
   cam3: {}
