@@ -9,13 +9,11 @@ Web-based CCTV dashboard built with:
 Using ffmpeg and a sample.mp4 file for prototype tests.
 
 ## Setup:
-
-## Setup:
 - ```docker compose up```
 - ```text ffmpeg \
   -f avfoundation -framerate 30 -video_size 1280x720 -i "0:none" \
   -filter_complex "[0:v]split=4[v1][v2][v3][v4]" \
-  -map "[v1]" -c:v h264_videotoolbox -realtime true -f rtsp -rtsp_transport tcp rtsp://localhost:8554/cam1 \
+  -map "[v1]" -c:v h264_videotoolbox -realtime true -f rtsp -rtsp_tradwnsport tcp rtsp://localhost:8554/cam1 \
   -map "[v2]" -c:v h264_videotoolbox -realtime true -f rtsp -rtsp_transport tcp rtsp://localhost:8554/cam2 \
   -map "[v3]" -c:v h264_videotoolbox -realtime true -f rtsp -rtsp_transport tcp rtsp://localhost:8554/cam3 \
   -map "[v4]" -c:v h264_videotoolbox -realtime true -f rtsp -rtsp_transport tcp rtsp://localhost:8554/cam4 
